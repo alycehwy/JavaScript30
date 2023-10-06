@@ -59,9 +59,33 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function activeKey(){
+    // get item of key and audio
+    let keyItem = document.querySelector(`div[data-key="${event.keyCode}"]`);
+    let audioItem = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+    // play audio if audioItem is not null
+    if(audioItem){
+      // rewind to the start (Set time position to 0 seconds)
+      audioItem.currentTime = 0;
+      audioItem.play();
+      // add css style
+      keyItem.classList.add("playing");
+    };
+  }
+
+  function removeTransition(){
+    if(event.propertyName == "transform"){
+      // use this to point out the element(could use "event.target" also), then remove class
+      this.classList.remove("playing");
+    }
+  }
+
+  window.addEventListener("keydown",activeKey);
+  let keyItems = document.querySelectorAll(".key");
+  // css has transition, so we could use event"transitionend" to remove the class
+  keyItems.forEach(key => key.addEventListener("transitionend",removeTransition));
 
 </script>
-
 
 </body>
 </html>
