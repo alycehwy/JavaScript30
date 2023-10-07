@@ -55,6 +55,7 @@
       width: 100%;
       height: 100%;
       transform: translateY(-3px); /* account for the height of the clock hands */
+      rotate: 90deg; /* make hand start from top */
     }
 
     .hand {
@@ -63,13 +64,40 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transition: all 0.05s;
+      transition-timing-function:cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .hour-hand {
+      margin-left: 15%;
+      width: 35%;
+    }
+
+    .second-hand {
+      height: 3px;
     }
 
   </style>
 
   <script>
-
-
+    let secHand = document.querySelector(".second-hand");
+    let minHand = document.querySelector(".min-hand");
+    let hourHand = document.querySelector(".hour-hand");
+    function clock(){
+      let today = new Date();
+      let second = today.getSeconds();
+      secHand.style.rotate = `${(second/60) * 360}deg`;
+      if(second == 0){
+        secHand.style.transition = "all 0s";
+      }
+      let min = today.getMinutes();
+      minHand.style.rotate = `${(min/60) * 360}deg`;
+      let hour = today.getHours();
+      // hour also will base on min to change position, therefore need add min degree
+      hourHand.style.rotate = `${(hour/12) * 360 + (min/60) * (360/12)}deg`;
+    }
+    setInterval(clock,1000);
   </script>
 </body>
 </html>
