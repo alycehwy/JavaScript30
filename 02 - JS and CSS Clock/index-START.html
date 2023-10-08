@@ -88,14 +88,21 @@
       let today = new Date();
       let second = today.getSeconds();
       secHand.style.rotate = `${(second/60) * 360}deg`;
-      if(second == 0){
-        secHand.style.transition = "all 0s";
-      }
       let min = today.getMinutes();
       minHand.style.rotate = `${(min/60) * 360}deg`;
       let hour = today.getHours();
       // hour also will base on min to change position, therefore need add min degree
       hourHand.style.rotate = `${(hour/12) * 360 + (min/60) * (360/12)}deg`;
+      // fix the problem of hand to do the transition from 35x to 0 deg will rollback
+      if(second == 0){
+        secHand.style.transition = "all 0s";
+      }
+      if(min == 0){
+        minHand.style.transition = "all 0s";
+      }
+      if(hour == 0){
+        hourHand.style.transition = "all 0s";
+      }
     }
     setInterval(clock,1000);
   </script>
