@@ -56,6 +56,10 @@
       background-color: var(--base);
     }
 
+    .hl {
+      color: var(--base);
+    }
+
   </style>
 
   <script>
@@ -64,11 +68,16 @@
     function styleUpdate(){
       // a || b -> if a is true, then return a; otherwise return b (Logical operators)
       let unit = this.dataset.sizing || "";
+
       // need apply the style on more than one element, therefore apply the style CSS variable on html(could apply on the same time)
       let html = document.documentElement;
       // style.setProperty(property,value) equal to style.property = value
       // Using the former method will easy for applying on a variable
       html.style.setProperty(`--${this.name}`,`${this.value}`+ unit);
+
+      // also could use root element to apply the style
+      // let root = document.querySelector(":root");
+      // root.style.setProperty(`--${this.name}`,`${this.value}`+ unit);
     }
 
     inputs.forEach(input => input.addEventListener("change",styleUpdate));
