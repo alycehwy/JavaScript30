@@ -27,6 +27,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -44,6 +45,9 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -64,14 +68,43 @@
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    
+
+    /* .panel p:nth-child(1) {
+      transform: translateY(-100%);
+    } */
+    /* another way */
+    .panel *:first-child {
+      transform: translateY(-100%);
     }
 
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
+    /* .panel p:nth-child(3) {
+      transform: translateY(100%);
+    } */
+    /* another way */
+    .panel *:last-child {
+      transform: translateY(100%);
+    }
+
+    /* setup the class for the wording show up */
+    .openAction *:first-child, .openAction *:last-child {
+      transform: translateY(0);
+    }
+
+    /* setup the class for img zoom in */
     .panel.open {
       font-size: 40px;
+      flex: 5;
     }
 
   </style>
@@ -106,10 +139,21 @@
   </div>
 
   <script>
-
+    const panels = document.querySelectorAll(".panel");
+    // for img zoom in
+    function toggleOpen(){
+      this.classList.toggle("open");
+    }
+    // for the wording show up
+    function toggleOpenAction(event){
+      // use transitionend to get the transform's action name then do the action
+      if(event.propertyName.includes("flex")){
+        this.classList.toggle("openAction");
+      }
+    }
+    panels.forEach(panel => panel.addEventListener("click",toggleOpen));
+    panels.forEach(panel => panel.addEventListener("transitionend",toggleOpenAction));
   </script>
-
-
 
 </body>
 </html>
