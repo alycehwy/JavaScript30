@@ -93,12 +93,14 @@
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
     let cal = data.reduce((obj,item) => {
+      // if obj not exist the item => create it and set initial = 0
       if(!obj[item]){
         obj[item] = 0;
       }
+      // obj[item] = obj[item] + 1 => will add num when obj exist the item
       obj[item]++;
       return obj
-    },{});
+    },{}); // initial obj = {}
     console.log(cal);
   </script>
 </body>
