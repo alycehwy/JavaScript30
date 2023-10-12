@@ -16,8 +16,42 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const cities = [];
+  fetch(endpoint)
+    .then(res => res.json())
+    // data is whole JSON data, so need to use forEach to push one object at a time
+    .then(data => data.forEach(item => cities.push(item)))
+    .catch(err => console.error(err));
+  
+  // num with the comma
+  function formatNum(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function inputKey(){
+    let matchAry = matchKey(this.value);
+    let lists = matchAry.map(list => {
+      const regex = new RegExp(this.value,"gi");
+      // highlight the keyword
+      let cityName = list.city.replace(regex,`<span class="hl">${this.value}</span>`)
+      let stateName = list.state.replace(regex,`<span class="hl">${this.value}</span>`)
+      return `<li><span>${cityName}, ${stateName}</span><span class="population">${formatNum(list.population)}</span></li>`
+    }).join("");
+    listTable.innerHTML = lists;
+  }
+  function matchKey(keyword){
+    return cities.filter(item => {
+      // g: global search(A global match finds all matches). i: case insensitive
+      const regex = new RegExp(keyword,"gi");
+      // get match with city or state
+      return item.city.match(regex) || item.state.match(regex)
+    });
+  }
 
+  let input = document.querySelector(".search");
+  let listTable = document.querySelector(".suggestions");
+  input.addEventListener("change",inputKey);
+  input.addEventListener("keyup",inputKey);
 </script>
 </body>
 </html>
