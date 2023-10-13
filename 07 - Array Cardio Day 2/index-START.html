@@ -52,11 +52,15 @@
     // console.table(comments);
 
     // won't change origin array => create new array
+    // way 1
     let newComments = [
       ...comments.slice(0,idx),
       ...comments.slice(idx + 1)
     ];
     console.table(newComments);
+    // way 2
+    let newCom = comments.toSpliced(idx,1);
+    console.table(newCom);
   </script>
 </body>
 </html>
