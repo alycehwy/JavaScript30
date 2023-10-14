@@ -8,6 +8,13 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector("#draw");
+  // get rendering context(渲染環境)
+  const context = canvas.getContext("2d");
+  // re-defined canvas size to whole window
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
 </script>
 
 <style>
