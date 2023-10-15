@@ -14,7 +14,41 @@
   // re-defined canvas size to whole window
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  // define line(stroke) style
+  context.strokeStyle = "blue";
+  context.lineJoin = "round";
+  context.lineCap = "round";
+  // setup stroke position
+  let lastX = 0;
+  let lastY = 0;
+  // to determine it is drawing or not
+  let isDrawing = false;
 
+  function drawAction(event){
+    if(isDrawing){
+      // create a new path
+      context.beginPath();
+      // start from
+      context.moveTo(lastX,lastY);
+      // end to
+      context.lineTo(event.offsetX, event.offsetY);
+      // stroke(draw) the current or given path with the current stroke style
+      context.stroke();
+      // use previous point end position be next point start position => continuous line
+      [lastX,lastY] = [event.offsetX,event.offsetY];
+    }
+  }
+
+  // mouse down => isDrawing flag on, then setup the start position
+  canvas.addEventListener("mousedown",(event) => {
+    isDrawing = true;
+    [lastX,lastY] = [event.offsetX,event.offsetY];
+  });
+  // mouse move => drawing
+  canvas.addEventListener("mousemove",drawAction);
+  // mouse up, mouse out => isDrawing flag off
+  canvas.addEventListener("mouseup",() => isDrawing = false);
+  canvas.addEventListener("mouseout",() => isDrawing = false);
 </script>
 
 <style>
