@@ -19,16 +19,24 @@
     }
 
     // Regular
+    console.log("Hello World!");
 
-    // Interpolated
+    // Interpolated (%s, the second parameter will pass to %s)
+    console.log("Hello World! I'm a %s!","string");
+    let str = "string";
+    console.log(`Hello World! I'm a ${str}!`);
 
-    // Styled
+    // Styled (%c, put in front of text that you want to style)
+    console.log("%c Hello World! I'm a text!","font-size: 30px; color: red; background-color: blue");
 
     // warning!
+    console.warn("OHHHHHHH NO!");
 
     // Error :|
+    console.error("ERRORRRRR!");
 
     // Info
+    console.info("You are great!!");
 
     // Testing
 
