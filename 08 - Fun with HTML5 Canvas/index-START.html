@@ -75,7 +75,7 @@
   canvas.addEventListener("mousemove",drawAction);
   // mouse up, mouse out => isDrawing flag off
   canvas.addEventListener("mouseup",() => isDrawing = false);
-  canvas.addEventListener(" ",() => isDrawing = false);
+  canvas.addEventListener("mouseout",() => isDrawing = false);
 </script>
 
 <style>
