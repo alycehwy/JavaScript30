@@ -8,6 +8,7 @@
 <body>
 
   <p onClick="makeGreen()">×BREAK×DOWN×</p>
+  <h1></h1>
 
   <script>
     const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
@@ -39,16 +40,56 @@
     console.info("You are great!!");
 
     // Testing
+    // to check if assertion(any boolean expression) is true or false, it will write error message when the assertion is false.
+    console.assert(1 === 2, "It is wrong!");
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.log(p);
+    // list of the properties of the specified JavaScript object.
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach((dog)=>{
+      // use groupCollapsed will default collapsed the group
+      console.groupCollapsed(`${dog.name}`);
+      // console.group(`${dog.name}`);
+      console.log(`Dog's name is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      // use groupEnd to end group
+      console.groupEnd();
+    })
 
     // counting
+    console.count("apple");
+    console.count("apple");
+    console.count("banana");
+    console.count("apple");
+    console.count("apple");
+    console.count("apple");
+    console.count("banana");
+    console.count();
+    console.count();
+    console.count();
+    console.count();
+    console.countReset();
+    console.count();
+    console.count("apple");
+    console.count("banana");
 
     // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        // use the same name console.time() when calling console.timeEnd() to stop the timer and get the time output to the console. If omitted, the label "default" is used.
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
 
   </script>
 </body>
