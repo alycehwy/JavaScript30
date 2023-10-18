@@ -51,10 +51,10 @@
       border-left: 1px solid #D1E2FF;
     }
   </style>
-   <!--
-   The following is a common layout you would see in an email client.
+  <!--
+  The following is a common layout you would see in an email client.
 
-   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+  When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
 
   -->
   <div class="inbox">
@@ -97,6 +97,26 @@
   </div>
 
 <script>
+  const inputs = document.querySelectorAll("input[type='checkbox']");
+  // variable to remark the input is last checked
+  let lastChecked;
+  inputs.forEach(input => {
+    input.addEventListener("click",(event) => {
+      // variable for remark the input is btw current checked and last checked
+      let inBtw = false;
+      if(event.shiftKey && event.target.checked){
+        inputs.forEach(input => {
+          if(input === lastChecked || input === event.target){
+            inBtw = !inBtw;
+          }
+          if(inBtw){
+            input.checked = true;
+          }
+        });
+      }
+      lastChecked = event.target;
+    });
+  });
 </script>
 </body>
 </html>
