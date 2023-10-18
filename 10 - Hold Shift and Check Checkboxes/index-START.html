@@ -104,11 +104,15 @@
     input.addEventListener("click",(event) => {
       // variable for remark the input is btw current checked and last checked
       let inBtw = false;
+      // when shiftkey is press and checked the checkbox
       if(event.shiftKey && event.target.checked){
         inputs.forEach(input => {
+          // when input is current checked or last checked, the inBtw flag will inverse
+          // means inputs between current checked and last checked, the inBtw flag is true
           if(input === lastChecked || input === event.target){
             inBtw = !inBtw;
           }
+          // if inBtw is true, input checked become true
           if(inBtw){
             input.checked = true;
           }
