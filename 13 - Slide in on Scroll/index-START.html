@@ -58,7 +58,10 @@
         if (callNow) func.apply(context, args);
       };
     }
-
+    function sildeIn(event){
+      console.log(event)
+    }
+    window.addEventListener("scroll",sildeIn);
   </script>
 
   <style>
