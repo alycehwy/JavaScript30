@@ -44,6 +44,7 @@
   </div>
 
   <script>
+    // the debouncing function to prevents extra activations or slow functions from triggering too often.
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -58,10 +59,23 @@
         if (callNow) func.apply(context, args);
       };
     }
+
     function sildeIn(event){
-      console.log(event)
+      sliderimages.forEach(slideImage => {
+        let slideInPos = (window.scrollY + window.innerHeight) - slideImage.height / 2;
+        let imageBtm = slideImage.offsetTop + slideImage.height;
+        let isHalfShown = slideInPos > slideImage.offsetTop;
+        let isNotScrolledPast = window.scrollY < imageBtm;
+        if(isHalfShown && isNotScrolledPast){
+          slideImage.classList.add("active");
+        }else{
+          slideImage.classList.remove("active");
+        }
+      });
     }
-    window.addEventListener("scroll",sildeIn);
+
+    const sliderimages = document.querySelectorAll(".slide-in");
+    window.addEventListener("scroll",debounce(sildeIn));
   </script>
 
   <style>
