@@ -62,10 +62,13 @@
 
     function sildeIn(event){
       sliderimages.forEach(slideImage => {
-        let slideInPos = (window.scrollY + window.innerHeight) - slideImage.height / 2;
+        let scrollPos = window.scrollY + window.innerHeight ;
+        // check if reach img half position: when scroll position gather than img offsetTop + img half height => img half shown
+        // slideImage.offsetTop: body top to img top
+        let isHalfShown = scrollPos > (slideImage.offsetTop + slideImage.height / 2);
         let imageBtm = slideImage.offsetTop + slideImage.height;
-        let isHalfShown = slideInPos > slideImage.offsetTop;
-        let isNotScrolledPast = window.scrollY < imageBtm;
+        // check if img not scorll past: when img bottom position gather than scroll Y
+        let isNotScrolledPast = imageBtm > window.scrollY;
         if(isHalfShown && isNotScrolledPast){
           slideImage.classList.add("active");
         }else{
@@ -73,7 +76,6 @@
         }
       });
     }
-
     const sliderimages = document.querySelectorAll(".slide-in");
     window.addEventListener("scroll",debounce(sildeIn));
   </script>
