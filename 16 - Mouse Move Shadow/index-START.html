@@ -36,6 +36,37 @@
   </style>
 
 <script>
+  const hero = document.querySelector(".hero");
+  const text = hero.querySelector("h1");
+
+  function shadowAction(event){
+    let {offsetX: x, offsetY: y} = event;
+    // ↑↑↑↑↑ same as ↓↓↓↓↓
+    // let x = event.offsetX;
+    // let y = event.offsetY;
+    const normalize = 100;
+
+    // x, y should add compensate when moving on h1
+    // when moving on h1 the offsetX/offsetY shows h1's offsetX/offsetY, therefore it needs to add the distance between div and h1
+    if(this !== event.target){
+      x += event.target.offsetLeft;
+      y += event.target.offsetTop;
+    }
+
+    // normalize xVal/yVal
+    let xVal = Math.round((x / hero.offsetWidth) * normalize) - normalize / 2;
+    let yVal = Math.round((y / hero.offsetHeight) * normalize) - normalize / 2;
+
+    // add text-shadow style
+    // text.style.textShadow = `${xVal}px ${yVal}px 0 rgba(255,0,255,0.5)`;
+    text.style.textShadow = `
+      ${xVal}px ${yVal}px 0 rgba(255,0,255,0.5),
+      ${-xVal}px ${yVal}px 0 rgba(0,255,255,0.5),
+      ${xVal}px ${-yVal}px 0 rgba(255,255,0,0.5),
+      ${-xVal}px ${-yVal}px 0 rgba(0,255,0,0.5)
+    `;
+  }
+  hero.addEventListener("mousemove",shadowAction)
 </script>
 </body>
 </html>
