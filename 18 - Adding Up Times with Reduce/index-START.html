@@ -183,6 +183,21 @@
     </li>
   </ul>
 <script>
+    // use querySelectorAll will get NodeList not a array, so need to turn it to array
+    const timeNodes = [...document.querySelectorAll("[data-time]")];
+    const totalSecond = timeNodes.reduce((sum,{dataset}) => {
+      const [min,sec] = dataset.time.split(":").map(parseFloat);
+      const timeNode = min * 60 + sec;
+      return sum + timeNode
+    },0);
+
+    // calculate total hours,mins,seconds
+    let restSecond = totalSecond;
+    const hours = Math.floor(restSecond / 3600);
+    restSecond %= 3600;
+    const mins = Math.floor(restSecond / 60);
+    restSecond %= 60;
+    console.log(`Total time: ${hours}:${mins}:${restSecond}`);
 </script>
 </body>
 </html>
