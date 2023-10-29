@@ -11,11 +11,49 @@
   </div>
 
 <script>
+  // webkitSpeechRecognition for google
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const recognition = new SpeechRecognition();
+  // interim results are results that are not yet final, default is false
+  recognition.interimResults = true;
+  // can setting language
+  // recognition.lang = "en-US";
+  recognition.lang = "cmn-Hant-TW";
+
+  // setup p as a container for each SpeechRecognition transcript
+  const words = document.querySelector(".words");
+  let p = document.createElement("p");
+  words.appendChild(p);
+
+  recognition.addEventListener("result", event => {
+    // get SpeechRecognition transcript
+    const transcript = event.results[0][0].transcript;
+    // const transcript = Array.from(event.results)
+    //   .map(result => result[0])
+    //   .map(result => result.transcript)
+    //   .join('');
+
+    // put transcript into p
+    if(transcript.includes("yo")){
+      p.textContent = `${transcript}🤘`;
+    }else{
+      p.textContent = transcript;
+    }
+
+    // when speak end create a new p container
+    if(event.results[0].isFinal){
+      p = document.createElement("p");
+      words.appendChild(p);
+    }
+  });
+
+  // when recognition end trigger it start again
+  recognition.addEventListener("end",recognition.start)
+
+  recognition.start();
 
 </script>
-
 
   <style>
     html {
