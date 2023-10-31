@@ -27,7 +27,31 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    // get all a link element
+    const links = document.querySelectorAll("a");
+    // create a span element has class hightlight(highlighter)
+    const highlight = document.createElement("span");
+    highlight.classList.add("highlight");
+    document.body.appendChild(highlight);
+
+    function highlightLink(){
+      // get the size of an element and its position relative to the viewport
+      const linkCoords = this.getBoundingClientRect();
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        // when scrolling X or Y will change the coords of the link, so add the compensate
+        left: linkCoords.left + scrollX,
+        top: linkCoords.top + scrollY
+      };
+
+      // style highlighter position
+      highlight.style.width = `${coords.width}px`;
+      highlight.style.height = `${coords.height}px`;
+      highlight.style.transform = `translate(${coords.left}px,${coords.top}px)`;
+    }
+
+    links.forEach(link => link.addEventListener("mouseenter",highlightLink));
   </script>
 </body>
 </html>
