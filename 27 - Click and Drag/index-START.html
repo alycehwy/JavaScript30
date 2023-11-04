@@ -36,6 +36,42 @@
   </div>
 
 <script>
+    const items = document.querySelector('.items');
+    // flag for record the mouse is down or not
+    let isDown = false;
+    // variable for record mouse click position
+    let startX;
+    // variable for record scroll x
+    let scrollLeft;
+
+    items.addEventListener('mousedown',(event) => {
+      isDown = true;
+      items.classList.add('active');
+      // mouse position = page x - items element offset x
+      startX = event.pageX - items.offsetLeft;
+      // scroll x = items element scroll x
+      scrollLeft = items.scrollLeft;
+    });
+    items.addEventListener('mouseleave',() => {
+      isDown = false;
+      items.classList.remove('active');
+    });
+    items.addEventListener('mouseup',() => {
+      isDown = false;
+      items.classList.remove('active');
+    });
+    items.addEventListener('mousemove',(event) => {
+      if(isDown){
+        // to prevent select action
+        event.preventDefault();
+        // x is mouse move position = page x - items element offset x
+        const x = event.pageX - items.offsetLeft;
+        // walk is the distance of mouse move  = mouse move position - mouse click position
+        const walk = (x - startX) * 2;
+        // items element scroll x = items element scroll x when click - the distance of mouse move
+        items.scrollLeft = scrollLeft - walk;
+      }
+    });
 </script>
 
   </body>
