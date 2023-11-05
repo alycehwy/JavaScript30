@@ -64,6 +64,7 @@
     if(scrollY >= topOfNav){
       body.classList.add('fixed-nav');
       // when nav is fixed, the nav height will disappear in body, so it needs to give the compensation
+      // if css use position: sticky, it doesn't need to add paddingTop
       body.style.paddingTop = `${nav.offsetHeight}px`;
     }else{
       document.body.classList.remove('fixed-nav');
