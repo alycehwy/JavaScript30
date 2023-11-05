@@ -55,7 +55,23 @@
   </div>
 
 <script>
+  const body = document.querySelector('body');
+  const nav = document.querySelector('#main');
+  const topOfNav = nav.offsetTop;
 
+  function fixNav(){
+    // Check if the window is scrolled beyond the nav height
+    if(scrollY >= topOfNav){
+      body.classList.add('fixed-nav');
+      // when nav is fixed, the nav height will disappear in body, so it needs to give the compensation
+      body.style.paddingTop = `${nav.offsetHeight}px`;
+    }else{
+      document.body.classList.remove('fixed-nav');
+      body.style.paddingTop = 0;
+    }
+  }
+
+  window.addEventListener('scroll',fixNav);
 </script>
 
 </body>
