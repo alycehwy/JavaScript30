@@ -5,7 +5,7 @@
   <title>Understanding JavaScript's Capture</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
-<body class="bod">
+<body class="body">
 
   <div class="one">
     <div class="two">
@@ -43,7 +43,31 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
 
+  function logText(event){
+    console.dir(this.classList.value);
+    // stop bubbling or stop capturing => will only get one item
+    event.stopPropagation();
+  }
+
+  // Event Bubbling: when an event happens, it will capture elements from the window to the document (like from top to bottom, only capture no action), and then get the feedback from the bottom to the top
+  // result: three > two > one (w/o stopPropagation())
+  // result: three (w/ stopPropagation())
+  divs.forEach(div => div.addEventListener('click',logText));
+  divs.forEach(div => div.addEventListener('click',logText,{capture: false}));
+
+  // Event Capturing:  when an event happens, it will capture elements from the window to the document (like from top to bottom)
+  // result: one > two > three (w/o stopPropagation())
+  // result: one (w/ stopPropagation())
+  divs.forEach(div => div.addEventListener('click',logText,{capture: true}));
+
+// once: the event will unbind itself after the event happened => the eventListener will trigger only once
+  divs.forEach(div => div.addEventListener('click',logText,{
+    capture: false,
+    once: true
+  }));
+  divs.forEach(div => div.addEventListener('click',logText,{once: true}));
 </script>
 </body>
 </html>
