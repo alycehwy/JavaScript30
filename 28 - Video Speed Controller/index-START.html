@@ -16,6 +16,33 @@
   </div>
 
 <script>
+  const speed = document.querySelector('.speed');
+  const speedBar = document.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+  // to check the mouse is down or not
+  let isClick = false;
+
+  function changeSpeedRate(event){
+    if(isClick){
+      // event：change value, this: fixed value
+      // this.offset = event.target.offsetTop
+      const positionY = event.pageY - this.offsetTop;
+      const percent = positionY / this.offsetHeight;
+      const barHeight = `${Math.round(percent * 100)}%`;
+      const maxVal = 3;
+      const minVal = 0.25;
+      const playbackRate = (maxVal - minVal) * percent + minVal;
+      speedBar.style.height = barHeight;
+      speedBar.textContent = `${playbackRate.toFixed(1)}x`;
+      video.playbackRate = playbackRate;
+    }
+  }
+
+  speed.addEventListener('mousedown',() => isClick = true);
+  speed.addEventListener('mouseleave',() => isClick = false);
+  speed.addEventListener('mouseup',() => isClick = false);
+  speed.addEventListener('mousemove',changeSpeedRate);
+
 </script>
 </body>
 </html>
