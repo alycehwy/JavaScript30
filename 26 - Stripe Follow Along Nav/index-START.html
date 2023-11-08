@@ -221,6 +221,37 @@
 </style>
 
 <script>
+  const tabs = document.querySelectorAll('.cool > li');
+  const background = document.querySelector('.dropdownBackground');
+  const nav = document.querySelector('.top');
+  
+  function showContent(){
+    // setting background first then content, to avoid background style can't follow content
+    const dropdownCoords = this.querySelector('.dropdown').getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect();
+    const coords = {
+      width: dropdownCoords.width,
+      height: dropdownCoords.height,
+      // before nav may have other elements, so need to use dropdown height/left - nav height/left to get gap of elements
+      top: dropdownCoords.top - navCoords.top,
+      left: dropdownCoords.left - navCoords.left
+    };
+    background.style.width = `${coords.width}px`;
+    background.style.height = `${coords.height}px`;
+    background.style.transform = `translate(${coords.left}px,${coords.top}px)`;
+    background.classList.add('open');
+    this.classList.add('trigger-enter','trigger-enter-active');
+    
+  }
+
+  function hideContent(){
+    this.classList.remove('trigger-enter','trigger-enter-active');
+    background.classList.remove('open');
+  }
+
+  tabs.forEach(tab => tab.addEventListener('mouseenter',showContent));
+  tabs.forEach(tab => tab.addEventListener('mouseleave',hideContent));
+
 </script>
 
 </body>
