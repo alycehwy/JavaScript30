@@ -80,3 +80,14 @@ body {
   font-size: 4rem;
   color: white;
 }
+
+.timer__functions {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.timer__functions button{
+  padding: 10px;
+  font-weight: 600;
+}
