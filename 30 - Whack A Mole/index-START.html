@@ -4,13 +4,28 @@
   <meta charset="UTF-8">
   <title>Whack A Mole!</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-start.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
 <body>
 
-  <h1>Whack-a-mole! <span class="score">0</span></h1>
-  <button onClick="startGame()">Start!</button>
+  <h1>Whack-a-mole!</h1>
+  <div class="scoreboard">
+    <p>Totol moles: <span class="totalMoles">0</span></p>
+    <p>You got: <span class="score">0</span></p>
+  </div>
+  <div class="level">
+    <span>Level:</span>
+    <div class="levelBtns">
+      <button class="levelBtn hover active" data-min="500" data-max="1500">Easy</button>
+      <button class="levelBtn hover" data-min="200" data-max="1000">Normal</button>
+      <button class="levelBtn hover" data-min="100" data-max="500">Hard</button>
+    </div>
+  </div>
+  <div class="panel">
+    <span class="timer">Remain Time: 0 sec</span>
+    <button class="start hover">Start!</button>
+  </div>
 
   <div class="game">
     <div class="hole hole1">
@@ -37,6 +52,104 @@
   const holes = document.querySelectorAll('.hole');
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
+  const start = document.querySelector('.start');
+  const timer = document.querySelector('.timer');
+  const molesBoard = document.querySelector('.totalMoles');
+  const levelBtns = document.querySelectorAll('.levelBtn');
+  let lastHoleNum;
+  let countdown;
+  let totalMoles;
+  let score;
+  let isTimeUp = false;
+
+  
+  function randomTime(min,max){
+    return Math.round(Math.random()*(max - min) + min);
+  }
+
+  function randomHole(holesLength){
+    // create an array to record the hole number and remove the last hole number
+    // it could avoid function needing to run over and over again while the same hole is selected
+    const ary = Array.from({ length: holesLength }, (val,idx) => idx + 1);
+    if(lastHoleNum){
+      ary.splice(lastHoleNum - 1,1);
+    }
+    const idx = Math.floor(Math.random()* ary.length);
+    const holeNum = ary[idx];
+    lastHoleNum = holeNum;
+    const hole = document.querySelector(`.hole${holeNum}`);
+    return hole
+  }
+  
+  function molePop(){
+    // get the level min-time and max-time
+    const level = document.querySelector('.active').dataset;
+    const time = randomTime(parseFloat(level.min),parseFloat(level.max));
+    const hole = randomHole(holes.length);
+    // let the selected mole pop up
+    hole.classList.add('up');
+    // calculate total moles then display num on the board
+    totalMoles++;
+    molesBoard.textContent = totalMoles;
+    // use setTimeout to make the selected mole hide after random time
+    setTimeout(() => {
+      hole.classList.remove('up');
+      // if isTimeUp is false, trigger this function again
+      if(!isTimeUp){
+        molePop();
+      }
+    },time);
+  }
+
+  function playGame(){
+    // change the start btn status => disable and hover can't work
+    startBtnToggle();
+    // reset the totalMoles and score
+    totalMoles = 0;
+    score = 0;
+    molesBoard.textContent = totalMoles;
+    scoreBoard.textContent = score;
+    // setup timer's time
+    let time = 10;
+    timer.textContent = `Remain Time: ${time} sec`;
+    isTimeUp = false;
+    molePop();
+    // countdown the timer
+    countdown = setInterval(() => {
+      time--;
+      // if time is up, stop the interval and change the start btn status back
+      if(time < 0){
+        isTimeUp = true;
+        clearInterval(countdown);
+        startBtnToggle();
+        return;
+      }
+      timer.textContent = `Remain Time: ${time} sec`;
+    },1000);
+  }
+
+  function getScore(event){
+    // if isTrusted is false => cheater
+    if(event.isTrusted){
+      score++;
+      scoreBoard.textContent = score;
+      this.classList.remove('up');
+    }
+  }
+
+  function startBtnToggle(){
+    start.toggleAttribute('disabled');
+    start.classList.toggle('hover');
+  }
+
+  function selectLevel(){
+    levelBtns.forEach(btn => btn.classList.remove('active'));
+    this.classList.add('active');
+  }
+
+  start.addEventListener('click',playGame);
+  moles.forEach(mole => mole.addEventListener('click',getScore));
+  levelBtns.forEach(btn => btn.addEventListener('click',selectLevel));
 
 </script>
 </body>
